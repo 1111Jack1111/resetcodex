@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0c0b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Reset Watch" />
+  <meta name="description" content="Codex 额度重置公开信号雷达" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./app.css" />
+  <title>Tibo Reset Watch</title>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">T</span><div><strong>Tibo Reset Watch</strong><span>公开信号雷达</span></div></div>
+      <span class="privacy"><i></i>零个人数据</span>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow"><span class="pulse" id="pulse"></span><span id="status-label">高概率即将重置</span></div>
+      <h1 id="headline">预计清晨重置</h1>
+      <p class="time-window" id="time-window">8 月 24 日 <b>05:00–06:00</b><span>北京时间</span></p>
+      <div class="countdown"><span id="countdown-label">距窗口中点</span><strong id="countdown">计算中…</strong></div>
+      <div class="confidence">
+        <div><span>判断信心</span><b id="confidence-value">82%</b></div><div class="meter"><i id="meter"></i></div>
+        <p id="reason">Tibo 公开消息镜像提到 paid subscriptions 的 full reset；X 原帖尚无法直接核验。</p>
+      </div>
+    </section>
+
+    <section class="actions">
+      <button class="primary" id="check"><span>检查 OpenAI 公开状态</span><b>↗</b></button>
+      <button class="secondary" id="notify"><span><i></i>页面通知</span><b>关闭</b></button>
+    </section>
+    <section class="check-result hidden" id="result" aria-live="polite"></section>
+
+    <section class="evidence">
+      <div class="section-title"><span>判断依据</span><b>公开来源</b></div>
+      <a class="evidence-card" href="https://zamantika.com/thsottiaux/status/2091407991736332689" target="_blank" rel="noreferrer">
+        <span class="source-logo tibo">T</span><div><strong>Tibo 公开消息镜像</strong><p>提及付费订阅“完整重置”，并给出太平洋时间窗口。</p><time>2026.08.24 · 待原帖直接核验</time></div><b>↗</b>
+      </a>
+      <a class="evidence-card" href="https://learn.chatgpt.com/docs/pricing" target="_blank" rel="noreferrer">
+        <span class="source-logo official">O</span><div><strong>OpenAI 官方额度说明</strong><p>用于核对额度窗口、周限制与 Usage 页面。</p><time>官方来源 · 基准</time></div><b>↗</b>
+      </a>
+      <a class="evidence-card" href="https://status.openai.com/" target="_blank" rel="noreferrer">
+        <span class="source-logo status">S</span><div><strong>OpenAI Status</strong><p>官方服务事件和异常状态，用于排除“故障被误判为重置”。</p><time>官方来源 · 实时</time></div><b>↗</b>
+      </a>
+    </section>
+
+    <section class="privacy-card"><span class="lock">●</span><div><strong>页面不收集任何个人信息</strong><p>无登录、无统计、无 Cookie，不读取你的账号、使用量、聊天或文件。通知开关只保存在当前设备。</p></div></section>
+    <footer><p>Safari 中点“分享 → 添加到主屏幕”即可当 App 使用。</p><span>判断不等于官方保证，实际到账以 Usage 页为准。</span></footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
