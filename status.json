@@ -1,25 +1,23 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-08-24T14:27:57.767183Z",
+  "checked_at": "2026-08-24T17:52:40.215227Z",
   "refresh_interval_minutes": 120,
-  "discovered_new_signal": false,
+  "discovered_new_signal": true,
   "status": "confirmed_reset",
   "label": "已确认重置",
   "headline": "额度重置正在落地",
   "confidence": 98,
-  "signal_at": "2026-08-24T04:00:00Z",
+  "signal_at": "2026-08-24T00:46:51.902000Z",
   "signal_id": "2091688655828246890",
   "source_url": "https://x.com/thsottiaux/status/2091688655828246890",
   "source_name": "Tibo（X 官方原帖）",
-  "reason": "本轮未发现更新；保留最近三天内、已通过 X 官方接口核验的信号。",
+  "reason": "自动任务发现重置相关消息，并通过 X 官方 oEmbed 接口核验作者与原文。",
   "source_verified": true,
   "openai_status": {
     "description": "All Systems Operational",
     "indicator": "none"
   },
-  "source_health": "partial",
-  "errors": [
-    "tibo_discovery:HTTPError"
-  ],
+  "source_health": "ok",
+  "errors": [],
   "privacy": "Only public URLs were requested; no account, cookie, token, usage, chat, or device data was accessed."
 }
