@@ -1,11 +1,41 @@
-const target=new Date('2026-08-24T05:30:00+08:00');
-const start=new Date('2026-08-24T05:00:00+08:00');
-const end=new Date('2026-08-24T06:00:00+08:00');
-const staleAfter=new Date('2026-08-25T06:00:00+08:00');
 const el=id=>document.getElementById(id);
-function countdown(ms){if(ms<=0)return'等待到账核验';const m=Math.floor(ms/60000),d=Math.floor(m/1440),h=Math.floor(m%1440/60);return`${d?`${d} 天 `:''}${h} 小时 ${m%60} 分`}
-function render(){const now=new Date(),pulse=el('pulse');pulse.className='pulse';if(now<start){el('status-label').textContent='高概率即将重置';el('headline').textContent='预计清晨重置';el('countdown-label').textContent='距窗口中点';el('countdown').textContent=countdown(target-now)}else if(now<=end){pulse.classList.add('window');el('status-label').textContent='已进入预计窗口';el('headline').textContent='重置可能正在进行';el('countdown-label').textContent='当前状态';el('countdown').textContent='请查看 Usage'}else if(now<=staleAfter){pulse.classList.add('verify');el('status-label').textContent='已有账户到账验证';el('headline').textContent='重置正在落地';el('countdown-label').textContent='验证窗口';el('countdown').textContent='8 月 24 日 05:00–06:00'}else{pulse.classList.add('stale');el('status-label').textContent='暂无新的可靠窗口';el('headline').textContent='等待下一次信号';el('time-window').innerHTML='上次验证 <b>8 月 24 日</b><span>历史记录</span>';el('countdown-label').textContent='监控状态';el('countdown').textContent='已开启';el('confidence-value').textContent='—';el('meter').style.width='0';el('reason').textContent='当前没有新的官方或高置信度重置时间，不会伪造精确预测。'}}
-render();setInterval(render,30000);
-const notify=el('notify');let enabled=localStorage.getItem('tibo-watch-notice')==='on';function paintNotice(){notify.querySelector('i').classList.toggle('on',enabled);notify.querySelector('b').textContent=enabled?'已开':'关闭'}paintNotice();notify.onclick=async()=>{if(!enabled&&'Notification'in window&&Notification.permission==='default')await Notification.requestPermission();enabled=!enabled;localStorage.setItem('tibo-watch-notice',enabled?'on':'off');paintNotice()};
-el('check').onclick=async function(){const box=el('result');box.classList.remove('hidden');box.innerHTML='<strong>正在读取官方公开状态…</strong><p>不会发送任何设备或账号信息。</p>';this.disabled=true;try{const r=await fetch('https://status.openai.com/api/v2/status.json',{cache:'no-store'});const data=await r.json();box.innerHTML=`<strong>${data.status?.description||'已读取 OpenAI Status'}</strong><p>这是服务状态，不代表个人额度已重置。重置仍以 Tibo/OpenAI 明确公开消息为准。</p>`}catch{box.innerHTML='<strong>浏览器暂时无法直读官方接口</strong><p>这通常是跨域或网络限制，不会将第三方传言自动当成已确认信号。</p>'}finally{this.disabled=false}};
+const DATA_URL='./data/status.json';
+const zhTime=value=>value?new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(value)):'暂无';
+function render(data){
+  const pulse=el('pulse');pulse.className='pulse';
+  if(data.status==='confirmed_reset')pulse.classList.add('window');
+  else if(data.status==='confirmed_upcoming'||data.status==='prediction')pulse.classList.add('verify');
+  else pulse.classList.add('stale');
+  el('status-label').textContent=data.label||'无新信号';
+  el('headline').textContent=data.headline||'等待下一次可靠消息';
+  el('last-updated').textContent=zhTime(data.checked_at);
+  el('confidence-value').textContent=data.confidence?`${data.confidence}%`:'—';
+  el('meter').style.width=`${Math.max(0,Math.min(100,data.confidence||0))}%`;
+  el('reason').textContent=data.reason||'没有新的可靠信号。';
+  el('signal-source').href=data.source_url||'https://x.com/thsottiaux';
+  el('signal-source-name').textContent=data.source_name||'Tibo 公开消息';
+  el('signal-time').textContent=data.signal_at?`${zhTime(data.signal_at)} · ${data.source_verified?'官方接口已核验':'辅助信号'}`:'暂无近期信号';
+  const openai=data.openai_status?.description||'暂时无法读取';
+  el('signal-source-note').textContent=`OpenAI 状态：${openai}。${data.source_health==='partial'?'部分公开来源本轮不可用。':'公开来源检查正常。'}`;
+  const old=localStorage.getItem('tibo-watch-signal');
+  if(data.signal_id&&old&&old!==data.signal_id&&localStorage.getItem('tibo-watch-notice')==='on'&&Notification.permission==='granted')new Notification('发现新的额度重置信号',{body:data.headline});
+  if(data.signal_id)localStorage.setItem('tibo-watch-signal',data.signal_id);
+}
+async function refresh(showResult=false){
+  const box=el('result');
+  if(showResult){box.classList.remove('hidden');box.innerHTML='<strong>正在读取最新公开结果…</strong><p>不会发送账号或设备信息。</p>'}
+  try{
+    const response=await fetch(`${DATA_URL}?t=${Date.now()}`,{cache:'no-store'});
+    if(!response.ok)throw new Error('status');
+    const data=await response.json();render(data);
+    if(showResult)box.innerHTML=`<strong>${data.label} · ${zhTime(data.checked_at)}</strong><p>${data.reason} 请到 Usage 页面确认个人账户是否实际到账。</p>`;
+  }catch{
+    if(showResult)box.innerHTML='<strong>暂时无法读取自动检查结果</strong><p>可能正在部署或网络受限，请稍后再试。</p>';
+  }
+}
+refresh();setInterval(()=>refresh(false),300000);
+const notify=el('notify');let enabled=localStorage.getItem('tibo-watch-notice')==='on';
+function paintNotice(){notify.querySelector('i').classList.toggle('on',enabled);notify.querySelector('b').textContent=enabled?'已开':'关闭'}
+paintNotice();notify.onclick=async()=>{if(!enabled&&'Notification'in window&&Notification.permission==='default')await Notification.requestPermission();enabled=!enabled;localStorage.setItem('tibo-watch-notice',enabled?'on':'off');paintNotice()};
+el('check').onclick=async function(){this.disabled=true;await refresh(true);this.disabled=false};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
