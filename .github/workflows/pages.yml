@@ -1,36 +1,41 @@
-name: Deploy iPhone PWA
+name: Update public reset signals
 
 on:
-  push:
-    branches: [main]
+  schedule:
+    - cron: "17 */2 * * *"
   workflow_dispatch:
 
 permissions:
-  actions: read
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: public-signal-update
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
-      - name: Configure Pages
-        uses: actions/configure-pages@v6
-      - name: Upload privacy-safe PWA
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: .
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Check public sources
+        run: python update_status.py
+
+      - name: Commit refreshed public data
+        shell: bash
+        run: |
+          if git diff --quiet -- status.json; then
+            echo "No data change"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add status.json
+          git commit -m "Update public reset signals"
+          git push
