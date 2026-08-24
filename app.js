@@ -1,5 +1,5 @@
 const el=id=>document.getElementById(id);
-const DATA_URL='./data/status.json';
+const DATA_URL='./status.json';
 const zhTime=value=>value?new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(value)):'暂无';
 function render(data){
   const pulse=el('pulse');pulse.className='pulse';
