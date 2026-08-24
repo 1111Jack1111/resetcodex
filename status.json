@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-08-24T05:20:00Z",
+  "checked_at": "2026-08-24T06:56:00.718742Z",
   "refresh_interval_minutes": 120,
-  "discovered_new_signal": true,
+  "discovered_new_signal": false,
   "status": "confirmed_reset",
   "label": "已确认重置",
   "headline": "额度重置正在落地",
@@ -11,9 +11,12 @@
   "signal_id": "2091688655828246890",
   "source_url": "https://x.com/thsottiaux/status/2091688655828246890",
   "source_name": "Tibo（X 官方原帖）",
-  "reason": "Tibo 的最新公开消息明确表示重置已传播到账号；不同账户实际到账时间可能略有差异。",
+  "reason": "本轮未发现更新；保留最近三天内、已通过 X 官方接口核验的信号。",
   "source_verified": true,
-  "openai_status": {"description": "All Systems Operational", "indicator": "none"},
+  "openai_status": {
+    "description": "All Systems Operational",
+    "indicator": "none"
+  },
   "source_health": "ok",
   "errors": [],
   "privacy": "Only public URLs were requested; no account, cookie, token, usage, chat, or device data was accessed."
