@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-08-26T11:51:18.422567Z",
+  "checked_at": "2026-08-26T14:30:37.116597Z",
   "refresh_interval_minutes": 120,
   "discovered_new_signal": false,
   "status": "confirmed_reset",
