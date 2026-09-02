@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-09-02T10:28:24.046588Z",
+  "checked_at": "2026-09-02T12:34:01.467774Z",
   "refresh_interval_minutes": 120,
   "discovered_new_signal": false,
   "status": "prediction",
@@ -17,9 +17,7 @@
     "description": "All Systems Operational",
     "indicator": "none"
   },
-  "source_health": "partial",
-  "errors": [
-    "tibo_discovery:HTTPError"
-  ],
+  "source_health": "ok",
+  "errors": [],
   "privacy": "Only public URLs were requested; no account, cookie, token, usage, chat, or device data was accessed."
 }
