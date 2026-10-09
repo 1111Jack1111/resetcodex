@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-09T17:00:11.635266Z",
+  "checked_at": "2026-10-09T22:39:51.797685Z",
   "refresh_interval_minutes": 120,
   "discovered_new_signal": false,
   "status": "no_signal",
@@ -14,8 +14,8 @@
   "reason": "最近三天没有发现可由官方接口核验的额度重置信号。",
   "source_verified": false,
   "openai_status": {
-    "description": "All Systems Operational",
-    "indicator": "none"
+    "description": "Partial System Outage",
+    "indicator": "major"
   },
   "source_health": "partial",
   "errors": [
