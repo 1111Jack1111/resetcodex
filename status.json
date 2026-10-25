@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-25T11:32:10.596807Z",
+  "checked_at": "2026-10-25T16:23:16.276229Z",
   "refresh_interval_minutes": 120,
   "discovered_new_signal": false,
   "status": "prediction",
