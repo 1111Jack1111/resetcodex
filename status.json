@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-12T18:19:56.375138Z",
+  "checked_at": "2026-11-13T01:05:25.980617Z",
   "refresh_interval_minutes": 120,
   "discovered_new_signal": false,
   "status": "no_signal",
@@ -14,8 +14,8 @@
   "reason": "最近三天没有发现可由官方接口核验的额度重置信号。",
   "source_verified": false,
   "openai_status": {
-    "description": "All Systems Operational",
-    "indicator": "none"
+    "description": "Partial System Degradation",
+    "indicator": "minor"
   },
   "source_health": "ok",
   "errors": [],
